@@ -252,7 +252,7 @@ jobs:
           -keep class * extends android.content.ContentProvider { *; }
           EOF
 
-                - name: Siapkan Keystore dan Konfigurasi Signing
+      - name: Siapkan Keystore dan Konfigurasi Signing
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
