@@ -102,7 +102,7 @@ jobs:
           cat << 'EOF' > "$RES_LAYOUT/kprogresshud_hud.xml"
           <?xml version="1.0" encoding="utf-8"?>
           <com.kaopiz.kprogresshud.BackgroundLayout
-              xmlns:android="http://schemas.android.com"
+              xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/background"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -120,7 +120,7 @@ jobs:
           mkdir -p "$MAIN_DIR/res/raw"
           cat << 'EOF' > "$MAIN_DIR/res/raw/keep.xml"
           <?xml version="1.0" encoding="utf-8"?>
-          <resources xmlns:tools="http://schemas.android.com" tools:keep="@layout/ext,@layout/kprogresshud_hud" />
+          <resources xmlns:tools="http://android.com" tools:keep="@layout/ext,@layout/kprogresshud_hud" />
           EOF
 
           # 3a. Ganti KProgressHUD menjadi android.app.Dialog
