@@ -119,22 +119,26 @@ jobs:
           <resources xmlns:tools="http://android.com" tools:keep="@layout/ext,@layout/kprogresshud_hud" />
           EOF
 
-          # 3a. Ganti KProgressHUD menjadi android.app.Dialog
+                    # 3a. Ganti KProgressHUD menjadi android.app.Dialog (Aman untuk blok try-catch)
           python3 -c '
           import glob, re
           for fpath in glob.glob("proyek_ekstrak/**/src/main/java/**/*.java", recursive=True):
               with open(fpath, "r", encoding="utf-8") as f: c = f.read()
               if "KProgressHUD" in c:
                   c = re.sub(r"import\s+com\.kaopiz\.kprogresshud\.KProgressHUD\s*;", "", c)
-                  c = re.sub(r"hud\s*=\s*KProgressHUD\.create[\s\S]*?hud\.show\(\)\s*;", """hud = new android.app.Dialog(activity);
+                  c = re.sub(
+                      r"hud\s*=\s*KProgressHUD\.create[\s\S]*?\.setCancellable\(false\)\s*;",
+                      """hud = new android.app.Dialog(activity);
                   hud.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
                   hud.setContentView(v);
                   hud.setCancelable(false);
                   if (hud.getWindow() != null) {
                       hud.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
                       hud.getWindow().setDimAmount(0.6f);
-                  }
-                  hud.show();""", c)
+                  }""",
+                      c
+                  )
+                  c = re.sub(r"hud\.setDimAmount\([^)]*\)\s*;", "", c)
                   c = c.replace("KProgressHUD", "android.app.Dialog")
                   with open(fpath, "w", encoding="utf-8") as f: f.write(c)
           '
